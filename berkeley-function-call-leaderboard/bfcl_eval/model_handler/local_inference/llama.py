@@ -15,6 +15,9 @@ class LlamaHandler(OSSHandler):
     prompt that's normally provided to the model in "prompt mode", the constructed 
     formatted prompt string remains same in both modes. 
     As a result, we will not have separate "prompt mode" for Llama models to avoid confusion.
+
+    Winnie's notes:
+    The @override decorator is a Python code annotation that provides explicit documentation and validation that a method is intended to override a parent class method
     """
 
     def __init__(self, model_name, temperature) -> None:

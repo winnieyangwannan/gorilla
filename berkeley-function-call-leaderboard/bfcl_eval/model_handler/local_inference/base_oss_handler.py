@@ -75,6 +75,17 @@ class OSSHandler(BaseHandler, EnforceOverrides):
     ):
         """
         Batch inference for OSS models.
+
+        Winnie's note: 
+        The @final decorator is a Python annotation that indicates a method or class should not be overridden by subclasses. Let me explain this concept:
+       
+        Benefits of This Design:
+        - Reliability: Server management is bulletproof
+        - Consistency: All models use the same efficient processing
+        - Maintainability: Bug fixes in batch_inference benefit all models
+        - Flexibility: Models can still customize prompting, parsing, etc.
+        - Safety: Prevents accidental breaking of critical infrastructure code
+
         """
         from transformers import AutoConfig, AutoTokenizer
 

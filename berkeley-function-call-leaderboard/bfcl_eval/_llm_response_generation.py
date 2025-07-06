@@ -30,7 +30,7 @@ RETRY_DELAY = 65  # Delay in seconds
 def get_args():
     parser = argparse.ArgumentParser()
     # Refer to model_choice for supported models.
-    parser.add_argument("--model", type=str, default="gorilla-openfunctions-v2", nargs="+")
+    parser.add_argument("--model", type=str, default="meta-llama/Llama-3.1-8B-Instruct-FC", nargs="+") # gorilla-openfunctions-v2
     # Refer to test_categories for supported categories.
     parser.add_argument("--test-category", type=str, default="all", nargs="+")
 
@@ -40,7 +40,7 @@ def get_args():
     parser.add_argument("--exclude-state-log", action="store_true", default=False)
     parser.add_argument("--num-threads", default=1, type=int)
     parser.add_argument("--num-gpus", default=1, type=int)
-    parser.add_argument("--backend", default="vllm", type=str, choices=["vllm", "sglang"])
+    parser.add_argument("--backend", default="sglang", type=str, choices=["vllm", "sglang"])
     parser.add_argument("--gpu-memory-utilization", default=0.9, type=float)
     parser.add_argument("--result-dir", default=None, type=str)
     parser.add_argument("--run-ids", action="store_true", default=False)
@@ -224,6 +224,26 @@ def multi_threaded_inference(handler, test_case, include_input_log, exclude_stat
 
 
 def generate_results(args, model_name, test_cases_total):
+    """
+    The code implements a branching strategy based on model type:
+    Path 1: OSS Model Batch Inference
+    Path 2: API Model Multi-threaded Inference
+
+
+    1. ThreadPoolExecutor Pattern
+    - Concurrent Execution: Multiple API calls happen simultaneously
+    - max_workers: Controls how many threads run concurrently
+    - Context Manager: with executor: ensures proper cleanup
+    
+    2. Futures Pattern
+    future = executor.submit(function, *args)  # Submit task
+    result = future.result()               # Get result (blocks if not ready)
+    - Asynchronous Submission: All tasks are submitted first
+    - Ordered Collection: Results are collected in submission order
+    - Blocking Wait: future.result() waits for completion
+
+
+    """
     update_mode = args.allow_overwrite
     handler = build_handler(model_name, args.temperature)
 
@@ -314,3 +334,9 @@ def main(args):
             )
         else:
             generate_results(args, model_name, test_cases_total)
+
+
+if __name__ == "__main__":
+    args = get_args()
+    main(args)
+    print("All done!")
