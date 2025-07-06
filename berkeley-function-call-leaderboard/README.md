@@ -117,9 +117,14 @@ When `BFCL_PROJECT_ROOT` is set:
 
 We store API keys and other configuration variables (separate from the `BFCL_PROJECT_ROOT` variable mentioned above) in a `.env` file. A sample `.env.example` file is distributed with the package.
 
+Purpose: The .env file is used to store API keys and other configuration variables that the BFCL evaluation system needs to run. By copying from the example file, you get a template with all the necessary variable names pre-populated, which you then need to fill in with your actual values (like API keys for GPT, Claude, Mistral, etc.).
+
+This line copies the example environment configuration file to create your actual environment file:
+
 **For editable installations:**
 
 ```bash
+# 
 cp bfcl_eval/.env.example .env
 # Fill in necessary values in `.env`
 ```
@@ -208,6 +213,9 @@ bfcl generate --model MODEL_NAME --test-category TEST_CATEGORY --num-threads 1
 
 #### For Locally-hosted OSS Models
 
+CLI Method (Recommended)
+- Winnie's note: CLI stands for Command Line Interface. It's a text-based interface where you interact with a program by typing commands directly in your terminal/command prompt.
+
 ```bash
 bfcl generate \
   --model MODEL_NAME \
@@ -246,6 +254,13 @@ python -m bfcl_eval.openfunctions_evaluation --model MODEL_NAME --test-category 
 ```
 
 When specifying multiple models or test categories, separate them with **spaces**, not commas. All other flags mentioned earlier are compatible with the script execution method as well.
+
+
+Winnie's note
+- What is the difference between CLI and python's module execution syntax?
+  - Both methods achieve the same result 
+  - CLI is just a more user-friendly wrapper around the underlying Python modules.
+
 
 ### Evaluating Generated Responses
 
