@@ -43,6 +43,10 @@ class LlamaHandler(OSSHandler):
 
             formatted_prompt += f"<|start_header_id|>assistant<|end_header_id|>\n\n"
 
+        ###### DEBUG #######
+        print(f"Formatted promp : {formatted_prompt[0]}")
+
+        ################
         return formatted_prompt
 
     @override

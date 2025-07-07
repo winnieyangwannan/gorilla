@@ -29,8 +29,11 @@ def run_subprocess_slurm(command):
 gpus_per_node = 2
 nodes = 1
 model_path = "meta-llama/Llama-3.3-70B-Instruct-FC"
+model_path = "meta-llama/Llama-3.1-8B-Instruct-FC"
+model_path = "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8-FC"
 result_dir = "/fsx-project/winnieyangwn/BFCL_OUTPUT"
-test_category = "single_turn"
+test_category = "all"
+include_input_log= True
 
 
 
@@ -39,7 +42,7 @@ test_category = "single_turn"
 # job_name  = f"activation_pca_moe_{model_path}"
 job_name = f"generate_response_{model_path}"
 
-slurm_cmd = f'''sbatch --account=genai_interns --qos=genai_interns \
+slurm_cmd = f'''sbatch --account=genai_interns --qos=lowest \
     --job-name={job_name} --nodes={nodes} --gpus-per-node={gpus_per_node} \
     --time=24:00:00 --output=LOGS/{job_name}.log \
     --wrap="\
@@ -48,6 +51,7 @@ slurm_cmd = f'''sbatch --account=genai_interns --qos=genai_interns \
         --backend sglang \
         --num-gpus 2 \
         --test-category={test_category} \
+        --include-input-log \
         --result-dir={result_dir}; \
 
 "'''

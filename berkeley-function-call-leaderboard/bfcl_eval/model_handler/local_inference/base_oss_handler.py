@@ -76,8 +76,10 @@ class OSSHandler(BaseHandler, EnforceOverrides):
         """
         Batch inference for OSS models.
 
+
+        ------------------------------------------------------------------------------------------------------------------
         Winnie's note: 
-        The @final decorator is a Python annotation that indicates a method or class should not be overridden by subclasses. Let me explain this concept:
+        The @final decorator is a Python annotation that indicates a method or class should not be overridden by subclasses.
        
         Benefits of This Design:
         - Reliability: Server management is bulletproof
@@ -85,6 +87,21 @@ class OSSHandler(BaseHandler, EnforceOverrides):
         - Maintainability: Bug fixes in batch_inference benefit all models
         - Flexibility: Models can still customize prompting, parsing, etc.
         - Safety: Prevents accidental breaking of critical infrastructure code
+        ------------------------------------------------------------------------------------------------------------------
+
+
+        ------------------------------------------------------------------------------------------------------------------
+        Winnie's note: 
+
+        process = subprocess.Popen(
+        [command_list],           # Command and arguments as a list
+        stdout=subprocess.PIPE,   # Redirect stdout
+        stderr=subprocess.PIPE,   # Redirect stderr  
+        text=True,               # Return text instead of bytes
+        )
+        - Subprocess creation using Python's subprocess.Popen to start a VLLM server.
+        - This approach allows the code to programmatically start a VLLM server with dynamic configuration values.
+        ------------------------------------------------------------------------------------------------------------------
 
         """
         from transformers import AutoConfig, AutoTokenizer

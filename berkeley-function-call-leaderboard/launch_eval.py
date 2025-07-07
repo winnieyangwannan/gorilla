@@ -28,8 +28,11 @@ def run_subprocess_slurm(command):
 
 gpus_per_node = 2
 nodes = 1
-model_path = "meta-llama/Llama-3.3-70B-Instruct-FC"
+# model_path = "meta-llama/Llama-3.1-8B-Instruct-FC"
+# model_path = "meta-llama/Llama-3.3-70B-Instruct-FC"
+model_path = "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8-FC"
 result_dir = "/fsx-project/winnieyangwn/BFCL_OUTPUT"
+score_dir = "/fsx-project/winnieyangwn/BFCL_OUTPUT/score"
 # test_category = "single_turn"
 
 
@@ -45,7 +48,8 @@ slurm_cmd = f'''sbatch --account=genai_interns --qos=genai_interns \
     --wrap="\
         python -m bfcl_eval.eval_checker.eval_runner \
         --model={model_path} \
-        --result-dir={result_dir}; \
+        --result-dir={result_dir} \
+        --score-dir={score_dir}; \
 
 "'''
 job_id = run_subprocess_slurm(slurm_cmd)

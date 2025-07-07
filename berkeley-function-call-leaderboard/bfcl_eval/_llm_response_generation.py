@@ -4,6 +4,12 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
 import traceback
+import os
+import sys
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# get to the parent directory
+parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
+sys.path.append(parent_dir)
 
 from bfcl_eval.constants.category_mapping import (
     MULTI_TURN_FUNC_DOC_FILE_MAPPING,
